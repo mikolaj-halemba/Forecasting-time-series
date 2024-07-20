@@ -1,5 +1,5 @@
 import pandas as pd
-from typing import Dict, Any,Tuple
+from typing import Dict, Any, Tuple
 from statsmodels.tsa.stattools import adfuller
 from src.base_operation import BaseOperation
 from utils.utils import log_execution_time
@@ -13,7 +13,7 @@ class DataPreprocessor(BaseOperation):
 
         :param config: Dictionary containing configuration parameters.
         """
-        self.raw_data_path: str = config['data']['raw_path']
+        self.raw_data_path: str = config["data"]["raw_path"]
 
     @log_execution_time
     def transform(self) -> pd.DataFrame:
@@ -25,7 +25,9 @@ class DataPreprocessor(BaseOperation):
         df_sales = self._read_data()
         df_sales_preprocessed = self._preprocess_data(df_sales)
         df_sales_prepared = self._aggregate_data(df_sales_preprocessed)
-        df_sales_prepared, num_diffs = self._make_stationary(df_sales_prepared.copy(), 'volume_sales')
+        df_sales_prepared, num_diffs = self._make_stationary(
+            df_sales_prepared.copy(), "volume_sales"
+        )
         return df_sales_prepared
 
     def _read_data(self) -> pd.DataFrame:
@@ -45,7 +47,9 @@ class DataPreprocessor(BaseOperation):
         :return: Preprocessed DataFrame with selected products.
         """
         df_sales_renamed = df.rename(columns={"volumeSales": "volume_sales"})
-        df_filtered = df_sales_renamed[df_sales_renamed['product'].isin(['P1', 'P2', 'P3'])]
+        df_filtered = df_sales_renamed[
+            df_sales_renamed["product"].isin(["P1", "P2", "P3"])
+        ]
         return df_filtered
 
     def _aggregate_data(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -55,9 +59,14 @@ class DataPreprocessor(BaseOperation):
         :param df: DataFrame containing preprocessed sales data.
         :return: Aggregated DataFrame with summed sales volumes.
         """
-        df_agg_c1 = df.groupby(['year', 'quarter']).agg({'volume_sales': 'sum'}).reset_index()
-        df_agg_c1.set_index(pd.PeriodIndex(year=df_agg_c1.year, quarter=df_agg_c1.quarter, freq='Q'), inplace=True)
-        df_agg_c1['volume_sales'] = df_agg_c1['volume_sales']
+        df_agg_c1 = (
+            df.groupby(["year", "quarter"]).agg({"volume_sales": "sum"}).reset_index()
+        )
+        df_agg_c1.set_index(
+            pd.PeriodIndex(year=df_agg_c1.year, quarter=df_agg_c1.quarter, freq="Q"),
+            inplace=True,
+        )
+        df_agg_c1["volume_sales"] = df_agg_c1["volume_sales"]
         return df_agg_c1
 
     def _check_stationarity(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -72,7 +81,9 @@ class DataPreprocessor(BaseOperation):
         """
         return adfuller(df)[1] <= 0.05
 
-    def _make_stationary(self, df, column='volume_sales', max_diff=2) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def _make_stationary(
+        self, df, column="volume_sales", max_diff=2
+    ) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """
         Makes the data stationary by differencing.
 
@@ -89,7 +100,8 @@ class DataPreprocessor(BaseOperation):
             df[column] = df[column].diff().dropna()
             diff_count += 1
         if not self._check_stationarity(df[column]):
-            raise ValueError("Data is not stationary after maximum allowed differencing.")
+            raise ValueError(
+                "Data is not stationary after maximum allowed differencing."
+            )
         logger.info(f"Data is stationary after {diff_count} differencing.")
         return df, diff_count
-

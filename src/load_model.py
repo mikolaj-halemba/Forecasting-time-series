@@ -5,13 +5,17 @@ import pandas as pd
 import pickle
 from statsmodels.tsa.arima.model import ARIMA
 
+
 class ModelLoader(BaseEstimator, RegressorMixin):
-    def __init__(self, file_path: str = None,
-                 order: Tuple[int, int, int] = (1, 0, 0),
-                 seasonal_order: Tuple[int, int, int, int] = (0, 0, 0, 0),
-                 trend: str = None,
-                 enforce_stationarity: bool = True,
-                 enforce_invertibility: bool = True) -> None:
+    def __init__(
+        self,
+        file_path: str = None,
+        order: Tuple[int, int, int] = (1, 0, 0),
+        seasonal_order: Tuple[int, int, int, int] = (0, 0, 0, 0),
+        trend: str = None,
+        enforce_stationarity: bool = True,
+        enforce_invertibility: bool = True,
+    ) -> None:
         """
         Initializes ModelLoader with the given file path and ARIMA order.
 
@@ -39,7 +43,7 @@ class ModelLoader(BaseEstimator, RegressorMixin):
         Handles exceptions if the file is not found or cannot be unpickled.
         """
         try:
-            with open(self.file_path, 'rb') as file:
+            with open(self.file_path, "rb") as file:
                 self.model = pickle.load(file)
         except FileNotFoundError:
             print(f"Error: The file at {self.file_path} was not found.")
@@ -48,7 +52,7 @@ class ModelLoader(BaseEstimator, RegressorMixin):
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
 
-    def fit(self, X: Union[np.ndarray, pd.DataFrame], y: np.ndarray) -> 'ModelLoader':
+    def fit(self, X: Union[np.ndarray, pd.DataFrame], y: np.ndarray) -> "ModelLoader":
         """
         Fits the ARIMA model to the given data.
 
@@ -56,9 +60,13 @@ class ModelLoader(BaseEstimator, RegressorMixin):
         :param y: Target variable, the time series to be modeled.
         :return: Self, with the fitted model.
         """
-        self.model = ARIMA(y, order=self.order, trend=self.trend,
-                           enforce_stationarity=self.enforce_stationarity,
-                           enforce_invertibility=self.enforce_invertibility).fit()
+        self.model = ARIMA(
+            y,
+            order=self.order,
+            trend=self.trend,
+            enforce_stationarity=self.enforce_stationarity,
+            enforce_invertibility=self.enforce_invertibility,
+        ).fit()
         return self
 
     def predict(self, X: Union[np.ndarray, pd.DataFrame]) -> np.ndarray:

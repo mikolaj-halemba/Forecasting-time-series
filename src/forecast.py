@@ -33,12 +33,14 @@ class Forecast(BaseOperation):
         :param df: Input DataFrame containing sales data.
         :return: Series with the forecasted sales data.
         """
-        sales_series = df['volume_sales']
-        sales_series.index = pd.PeriodIndex(year=df['year'], quarter=df['quarter'], freq='Q')
+        sales_series = df["volume_sales"]
+        sales_series.index = pd.PeriodIndex(
+            year=df["year"], quarter=df["quarter"], freq="Q"
+        )
         best_model = ARIMA(sales_series, **self.best_param)
         best_model_fit = best_model.fit()
         forecast = best_model_fit.forecast(steps=12)
-        #self._plot_forecast(sales_series, forecast)
+        # self._plot_forecast(sales_series, forecast)
 
         return forecast
 
@@ -50,11 +52,15 @@ class Forecast(BaseOperation):
         :param forecast: Series containing the forecasted sales data.
         """
         plt.figure(figsize=(12, 6))
-        plt.plot(sales_series.index.to_timestamp(), sales_series, label='Historical Data')
-        plt.plot(forecast.index.to_timestamp(), forecast, label='Forecast', color='orange')
-        plt.title('Sales Forecast')
-        plt.xlabel('Date')
-        plt.ylabel('Sales Volume')
+        plt.plot(
+            sales_series.index.to_timestamp(), sales_series, label="Historical Data"
+        )
+        plt.plot(
+            forecast.index.to_timestamp(), forecast, label="Forecast", color="orange"
+        )
+        plt.title("Sales Forecast")
+        plt.xlabel("Date")
+        plt.ylabel("Sales Volume")
         plt.legend()
         plt.grid(True)
         plt.show()

@@ -13,4 +13,3 @@ class BaseOperation(ABC):
         :return: Transformed data.
         """
         pass
-
