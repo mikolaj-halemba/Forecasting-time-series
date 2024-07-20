@@ -53,7 +53,7 @@ def test_transform(mock_model_loader, mock_grid_search, cross_validator):
 @patch('src.cross_validation.ModelLoader')
 def test_tune_parameters(mock_model_loader, mock_grid_search, cross_validator):
     mock_model_instance = MagicMock()
-    mock_model_loader.return_value = MagicMock()
+    mock_model_loader.return_value = mock_model_instance
     mock_grid_search_instance = MagicMock()
     mock_grid_search.return_value = mock_grid_search_instance
     mock_grid_search_instance.fit.return_value = None
