@@ -3,6 +3,9 @@ from src.data_preprocessing import DataPreprocessor
 from src.cross_validation import TimeSeriesCrossValidator
 from src.forecast import Forecast
 from utils.utils import load_config
+import warnings
+warnings.filterwarnings("ignore")
+
 
 if __name__ == "__main__":
     # Load configs
