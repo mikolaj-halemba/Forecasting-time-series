@@ -4,6 +4,7 @@ from src.cross_validation import TimeSeriesCrossValidator
 from src.forecast import Forecast
 from utils.utils import load_config
 import warnings
+
 warnings.filterwarnings("ignore")
 
 
