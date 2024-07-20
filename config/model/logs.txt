@@ -1,0 +1,16 @@
+Time: 2024-07-20 14:00:31.104825
+Best Parameters: {'order': (1, 1, 1)}
+Best Score: -100.0
+
+Time: 2024-07-20 14:00:31.108795
+Best Parameters: <MagicMock name='GridSearchCV().best_params_' id='1807856291216'>
+Best Score: <MagicMock name='GridSearchCV().best_score_' id='1807856303168'>
+
+Time: 2024-07-20 14:01:17.111445
+Best Parameters: {'order': (1, 1, 1)}
+Best Score: -100.0
+
+Time: 2024-07-20 14:01:17.116444
+Best Parameters: {'order': (1, 1, 1)}
+Best Score: -100.0
+
