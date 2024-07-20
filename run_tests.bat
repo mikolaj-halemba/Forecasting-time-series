@@ -9,7 +9,16 @@ if %RESULT% neq 0 (
     exit /b 1
 )
 
-echo Ruff passed, running tests...
+echo Ruff passed, running Black for formatting...
+black .
+set RESULT=%ERRORLEVEL%
+
+if %RESULT% neq 0 (
+    echo Black formatting failed, commit aborted.
+    exit /b 1
+)
+
+echo Black passed, running tests...
 
 pytest --maxfail=1 --disable-warnings -v
 set RESULT=%ERRORLEVEL%
