@@ -1,7 +1,7 @@
 @echo off
 
 echo Running Ruff for linting...
-ruff check .
+ruff check . --exclude notebooks
 set RESULT=%ERRORLEVEL%
 
 if %RESULT% neq 0 (
@@ -10,7 +10,7 @@ if %RESULT% neq 0 (
 )
 
 echo Ruff passed, running Black for formatting...
-black .
+black . --exclude notebooks
 set RESULT=%ERRORLEVEL%
 
 if %RESULT% neq 0 (
@@ -20,7 +20,7 @@ if %RESULT% neq 0 (
 
 echo Black passed, running tests...
 
-pytest --maxfail=1 --disable-warnings -v
+pytest --maxfail=1 --disable-warnings -v --ignore=notebooks
 set RESULT=%ERRORLEVEL%
 
 if %RESULT% neq 0 (
