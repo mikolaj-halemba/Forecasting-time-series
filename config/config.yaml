@@ -1,11 +1,11 @@
 data:
-  raw_path: 'C:\Users\mikol\Repositories\Nestle\data\raw\historical_sales_volume.csv'
+  raw_path: 'C:\Users\mikol\Repositories\forecasting\data\raw\historical_sales_volume.csv'
 
 model:
-  path: 'C:\Users\mikol\Repositories\Nestle\models\arima_model.pkl'
+  path: 'C:\Users\mikol\Repositories\forecasting\models\arima_model.pkl'
 
 logs:
-  path: 'C:\Users\mikol\Repositories\Nestle\config\model\logs.txt'
+  path: 'C:\Users\mikol\Repositories\forecasting\config\model\logs.txt'
 
 param_grid:
   order:
